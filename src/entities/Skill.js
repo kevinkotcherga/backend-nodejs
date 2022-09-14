@@ -1,0 +1,19 @@
+const typeorm = require("typeorm");
+const EntitySchema = typeorm.EntitySchema;
+
+const SkillEntity = new EntitySchema({
+  name: "Skill",
+  columns: {
+    id: {
+      primary: true,
+      type: "int",
+      generated: true,
+    },
+    name: {
+      type: "text",
+      unique: true,
+    },
+  },
+});
+
+module.exports = SkillEntity;

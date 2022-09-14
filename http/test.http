@@ -1,0 +1,66 @@
+GET http://localhost:3000/api/wilders
+
+###
+
+POST http://localhost:3000/api/wilders
+Content-Type: application/json
+
+{ "name": "Emeline" }
+
+###
+
+GET http://localhost:3000/api/wilders/2
+
+###
+
+PUT http://localhost:3000/api/wilders/2
+Content-Type: application/json
+
+{
+  "name": "Yohann",
+  "skills": [{ "id": 2 }]
+}
+
+### 1 by 1
+
+POST http://localhost:3000/api/wilders/2/skills
+Content-Type: application/json
+
+{
+  "skillId": [3]
+}
+
+### Multiple skills at once
+
+POST http://localhost:3000/api/wilders/2/skills
+Content-Type: application/json
+
+{
+  "skillsIds": [2, 3]
+}
+
+###
+
+DELETE http://localhost:3000/api/wilders/2
+
+###
+
+GET http://localhost:3000/api/wilders
+
+###
+
+POST http://localhost:3000/api/wilders
+Content-Type: application/json
+
+{ "name": "Louise" }
+
+###
+
+GET http://localhost:3000/api/skills
+
+###
+
+POST http://localhost:3000/api/skills
+Content-Type: application/json
+
+{ "name": "CSS" }
