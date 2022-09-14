@@ -5,6 +5,7 @@ module.exports = {
 	//
 	// SQL create
 	//
+
 	create: (req, res) => {
 		const repository = datasource.getRepository('Wilder');
 
@@ -24,9 +25,11 @@ module.exports = {
 				},
 			);
 	},
+
 	//
 	// ORM create
 	//
+
 	// create: (req, res) => {
 	// 	const repository = datasource.getRepository('Wilder');
 	// 	repository.save(req.body).then(
@@ -39,47 +42,115 @@ module.exports = {
 	// 	);
 	// 	res.json({ message: 'Create' });
 	// },
+
 	//
 	// SQL findAll
 	//
+
 	findAll: (req, res) => {
 		const repository = datasource.getRepository('Wilder');
 
-		repository.query('SELECT * FROM wilder');
+		repository.query('SELECT * FROM wilder').then(
+			data => {
+				res.json(data);
+			},
+			err => {
+				console.error('Error: ', err);
+				res.json({ success: false });
+			},
+		);
 	},
+
 	//
 	// ORM findAll
 	//
-	findAll: (req, res) => {
-		const repository = datasource.getRepository('Wilder');
 
-		repository.find().then(data => {
-			res.json(data);
-		});
-	},
-	find: async (req, res) => {
+	// findAll: (req, res) => {
+	// 	const repository = datasource.getRepository('Wilder');
+
+	// 	repository.find().then(data => {
+	// 		res.json(data);
+	// 	});
+	// },
+
+	//
+	// SQL find
+	//
+
+	find: (req, res) => {
+		const repository = datasource.getRepository('Wilder');
 		const wilderId = req.params.wilderId;
 
-		// find 1 wilder by its ID
-		const data = await datasource
-			.getRepository('Wilder')
-			.findOneBy({ id: wilderId });
-
-		res.json(data);
+		repository.query('SELECT * FROM wilder WHERE id=?', [wilderId]).then(
+			data => {
+				res.json(data);
+			},
+			err => {
+				console.error('Error: ', err);
+				res.json({ success: false });
+			},
+		);
 	},
-	update: async (req, res) => {
-		const wilderId = req.params.wilderId;
+
+	//
+	// ORM find
+	//
+
+	// find: async (req, res) => {
+	// 	const wilderId = req.params.wilderId;
+
+	// 	// find 1 wilder by its ID
+	// 	const data = await datasource
+	// 		.getRepository('Wilder')
+	// 		.findOneBy({ id: wilderId })
+	// 		.then(
+	// 			data => {
+	// 				res.json(data);
+	// 			},
+	// 			err => {
+	// 				console.error('Error: ', err);
+	// 				res.json({ success: false });
+	// 			},
+	// 		);
+	// },
+
+	//
+	// SQL update
+	//
+
+	update: (req, res) => {
 		const repository = datasource.getRepository('Wilder');
-
-		const wilder = await repository.findOneByOrFail({ id: wilderId });
-
-		// Object.assign(wilder, req.body);
-		wilder.name = req.body.name;
-		wilder.skills = req.body.skills;
-
-		const updatedWilder = await repository.save(wilder, { reload: true });
-		res.json(updatedWilder);
+		const wilderId = req.params.wilderId;
+		const wilderName = req.body.name;
+		repository
+			.query('UPDATE wilder SET name=? WHERE id=?', [wilderName, wilderId])
+			.then(
+				data => {
+					res.json(data);
+				},
+				err => {
+					console.error('Error: ', err);
+					res.json({ success: false });
+				},
+			);
 	},
+
+	//
+	// ORM update
+	//
+
+	// update: async (req, res) => {
+	// 	const wilderId = req.params.wilderId;
+	// 	const repository = datasource.getRepository('Wilder');
+
+	// 	const wilder = await repository.findOneByOrFail({ id: wilderId });
+
+	// 	wilder.name = req.body.name;
+	// 	wilder.skills = req.body.skills;
+
+	// 	const updatedWilder = await repository.save(wilder, { reload: true });
+	// 	res.json(updatedWilder);
+	// },
 	delete: (req, res) => {
 		const wilderId = req.params.wilderId;
 		const repository = datasource.getRepository('Wilder');
