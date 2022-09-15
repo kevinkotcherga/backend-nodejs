@@ -1,0 +1,9 @@
+// GET ALL SKILLS
+GET http://localhost:5000/api/skills
+
+###
+// CREATE SKILL
+POST http://localhost:5000/api/skills
+Content-Type: application/json
+
+{ "name": "CSS" }
