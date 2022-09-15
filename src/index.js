@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const datasource = require('./utils');
 const wildersController = require('./controllers/Wilders'); // → objet (key-value)
 const skillsController = require('./controllers/Skills');
@@ -6,6 +7,7 @@ const skillsController = require('./controllers/Skills');
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
 	res.send('Hello you!');
@@ -52,7 +54,7 @@ app.put('/api/skills/:skillId', skillsController.update);
 app.delete('/api/skills/:skillId', skillsController.delete);
 // end of request
 
-app.listen(3000, async () => {
+app.listen(5000, async () => {
 	console.log('Server started, youpi!');
 
 	/**
