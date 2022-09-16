@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const datasource = require('./utils');
-const wildersController = require('./controllers/Wilders'); // → objet (key-value)
+const wildersController = require('./controllers/Wilders');
 const skillsController = require('./controllers/Skills');
+const upvotesController = require('./controllers/Upvotes');
 
 const app = express();
 
@@ -52,7 +53,15 @@ app.get('/api/skills/:skillId', skillsController.find);
 app.post('/api/skills', skillsController.create);
 app.put('/api/skills/:skillId', skillsController.update);
 app.delete('/api/skills/:skillId', skillsController.delete);
-// end of request
+
+/**
+ * Upvotes Routes
+ */
+app.post('/api/upvotes', asyncHandler(upvotesController.create));
+app.put(
+	'/api/upvotes/:upvoteId/upvote',
+	asyncHandler(upvotesController.upvote),
+);
 
 app.listen(5000, async () => {
 	console.log('Server started, youpi!');
@@ -66,8 +75,9 @@ app.listen(5000, async () => {
 	try {
 		await datasource.initialize();
 		console.log("I'm connected!");
-	} catch {
+	} catch (err) {
 		console.log('Dommage');
+		console.error(err);
 	}
 });
 

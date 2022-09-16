@@ -65,10 +65,18 @@ module.exports = {
 	// ORM findAll
 	//
 
+	// findAll: (req, res) => {
+	// 	const repository = datasource.getRepository('Wilder');
+
+	// 	repository.find().then(data => {
+	// 		res.json(data);
+	// 	});
+	// },
+
 	findAll: (req, res) => {
 		const repository = datasource.getRepository('Wilder');
 
-		repository.find().then(data => {
+		repository.find({ relations: ['upvotes', 'upvotes.skill'] }).then(data => {
 			res.json(data);
 		});
 	},
@@ -77,42 +85,42 @@ module.exports = {
 	// SQL find
 	//
 
-	find: (req, res) => {
-		const repository = datasource.getRepository('Wilder');
-		const wilderId = req.params.wilderId;
+	// find: (req, res) => {
+	// 	const repository = datasource.getRepository('Wilder');
+	// 	const wilderId = req.params.wilderId;
 
-		repository.query('SELECT * FROM wilder WHERE id=?', [wilderId]).then(
-			data => {
-				res.json(data);
-			},
-			err => {
-				console.error('Error: ', err);
-				res.json({ success: false });
-			},
-		);
-	},
+	// 	repository.query('SELECT * FROM wilder WHERE id=?', [wilderId]).then(
+	// 		data => {
+	// 			res.json(data);
+	// 		},
+	// 		err => {
+	// 			console.error('Error: ', err);
+	// 			res.json({ success: false });
+	// 		},
+	// 	);
+	// },
 
 	//
 	// ORM find
 	//
 
-	// find: async (req, res) => {
-	// 	const wilderId = req.params.wilderId;
+	find: async (req, res) => {
+		const wilderId = req.params.wilderId;
 
-	// 	// find 1 wilder by its ID
-	// 	const data = await datasource
-	// 		.getRepository('Wilder')
-	// 		.findOneBy({ id: wilderId })
-	// 		.then(
-	// 			data => {
-	// 				res.json(data);
-	// 			},
-	// 			err => {
-	// 				console.error('Error: ', err);
-	// 				res.json({ success: false });
-	// 			},
-	// 		);
-	// },
+		// find 1 wilder by its ID
+		const data = await datasource
+			.getRepository('Wilder')
+			.findOneBy({ id: wilderId })
+			.then(
+				data => {
+					res.json(data);
+				},
+				err => {
+					console.error('Error: ', err);
+					res.json({ success: false });
+				},
+			);
+	},
 
 	//
 	// SQL update
@@ -151,6 +159,10 @@ module.exports = {
 		const updatedWilder = await repository.save(wilder, { reload: true });
 		res.json(updatedWilder);
 	},
+
+	//
+	// SQL delete
+	//
 
 	delete: (req, res) => {
 		const wilderId = req.params.wilderId;

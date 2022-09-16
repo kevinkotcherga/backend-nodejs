@@ -2,8 +2,19 @@
 GET http://localhost:5000/api/skills
 
 ###
+// GET  SKILL
+GET http://localhost:5000/api/skills/3
+
+###
 // CREATE SKILL
 POST http://localhost:5000/api/skills
 Content-Type: application/json
 
-{ "name": "CSS" }
+{ "name": "Ruby" }
+
+###
+// UPDATE SKILL
+PUT http://localhost:5000/api/skills
+Content-Type: application/json
+
+{ "name": "Ruby" }

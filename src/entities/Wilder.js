@@ -17,11 +17,10 @@ const WilderEntity = new EntitySchema({
 		},
 	},
 	relations: {
-		skills: {
-			target: 'Skill',
-			type: 'many-to-many',
-			joinTable: true,
-			eager: true,
+		upvotes: {
+			type: 'one-to-many',
+			inverseSide: 'wilder',
+			target: 'Upvote',
 		},
 	},
 });
